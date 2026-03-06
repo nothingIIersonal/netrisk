@@ -1,0 +1,428 @@
+<!doctype html>
+<html>
+
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>SNMP Risk Monitor</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 20px;
+    }
+
+    .card {
+      border: 1px solid #ddd;
+      border-radius: 8px;
+      padding: 12px;
+      margin-bottom: 12px;
+    }
+
+    .big {
+      font-size: 22px;
+    }
+
+    table {
+      border-collapse: collapse;
+      width: 100%;
+    }
+
+    th,
+    td {
+      border-bottom: 1px solid #eee;
+      padding: 6px;
+      text-align: left;
+      vertical-align: top;
+    }
+
+    .mono {
+      font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+    }
+
+    .small {
+      font-size: 12px;
+      color: #666;
+    }
+
+    .pill {
+      display: inline-block;
+      padding: 2px 8px;
+      border-radius: 999px;
+      font-size: 12px;
+      border: 1px solid #ddd;
+    }
+
+    .pill.up {
+      background: #eaffea;
+    }
+
+    .pill.down {
+      background: #ffecec;
+    }
+
+    .pill.stale {
+      background: #fff7e6;
+    }
+
+    .bar {
+      width: 100%;
+      height: 16px;
+      background: #eee;
+      border-radius: 8px;
+      overflow: hidden;
+    }
+
+    .fill {
+      height: 100%;
+      width: 0%;
+      background: #2d7;
+      transition: width 0.15s;
+    }
+
+    .fill.warn {
+      background: #fb3;
+    }
+
+    .fill.bad {
+      background: #f55;
+    }
+
+    .btn {
+      display: inline-block;
+      padding: 6px 10px;
+      border: 1px solid #ccc;
+      border-radius: 6px;
+      cursor: pointer;
+      background: #fafafa;
+    }
+
+    .btn:hover {
+      background: #f0f0f0;
+    }
+
+    .banner {
+      padding: 8px 10px;
+      border-radius: 6px;
+      border: 1px solid #f5c2c7;
+      background: #f8d7da;
+      color: #842029;
+      display: none;
+      margin-bottom: 12px;
+    }
+
+    .banner2 {
+      padding: 8px 10px;
+      border-radius: 6px;
+      border: 1px solid #ffeeba;
+      background: #fff3cd;
+      color: #664d03;
+      display: none;
+      margin-bottom: 12px;
+    }
+  </style>
+</head>
+
+<body>
+  <h2>SNMP Risk Monitor</h2>
+
+  <div id="banner" class="banner"></div>
+  <div id="banner2" class="banner2"></div>
+
+  <div class="card">
+    <div class="big">
+      Now: <span id="now">-</span>
+      &nbsp; Forecast: <span id="fc">-</span>
+      <span id="state" class="pill">-</span>
+    </div>
+    <div class="bar">
+      <div id="fill" class="fill"></div>
+    </div>
+    <div class="small" id="meta">-</div>
+    <div style="margin-top:8px">
+      <span class="btn" onclick="resetAll()">Reset stats/models</span>
+    </div>
+  </div>
+
+  <div class="card">
+    <h3>Reliability</h3>
+    <table id="rel">
+      <thead>
+        <tr>
+          <th>Metric</th>
+          <th>Value</th>
+        </tr>
+      </thead>
+      <tbody></tbody>
+    </table>
+  </div>
+
+  <div class="card">
+    <h3>Anomaly</h3>
+    <table id="anom">
+      <thead>
+        <tr>
+          <th>Key</th>
+          <th>Value</th>
+          <th>Expected</th>
+          <th>Z</th>
+          <th>Score</th>
+          <th>Model</th>
+          <th>N</th>
+        </tr>
+      </thead>
+      <tbody></tbody>
+    </table>
+  </div>
+
+  <div class="card">
+    <h3>Availability</h3>
+    <table id="avail">
+      <thead>
+        <tr>
+          <th>Metric</th>
+          <th>Supported</th>
+          <th>Full fresh</th>
+        </tr>
+      </thead>
+      <tbody></tbody>
+    </table>
+  </div>
+
+  <div class="card">
+    <h3>Interfaces</h3>
+    <table id="ifaces">
+      <thead>
+        <tr>
+          <th>Idx</th>
+          <th>Name</th>
+          <th>Supported</th>
+          <th>Admin</th>
+          <th>Oper</th>
+          <th>Speed</th>
+          <th>Err/s</th>
+          <th>Disc/s</th>
+          <th>In bps</th>
+          <th>Out bps</th>
+        </tr>
+      </thead>
+      <tbody></tbody>
+    </table>
+  </div>
+
+  <div class="card">
+    <h3>Events</h3>
+    <table id="ev">
+      <thead>
+        <tr>
+          <th>At</th>
+          <th>From→To</th>
+          <th>PrevDur</th>
+          <th>Reason</th>
+        </tr>
+      </thead>
+      <tbody></tbody>
+    </table>
+  </div>
+
+  <script>
+    function setBanner(id, text) {
+      const b = document.getElementById(id);
+      if (!text) { b.style.display = 'none'; b.textContent = ''; return; }
+      b.style.display = 'block'; b.textContent = text;
+    }
+    function pill(el, state) {
+      el.textContent = state || '-';
+      el.classList.remove('up', 'down', 'stale');
+      if (state === 'UP') el.classList.add('up');
+      else if (state === 'DOWN') el.classList.add('down');
+      else if (state === 'STALE') el.classList.add('stale');
+    }
+    function fmtDur(sec) {
+      sec = Number(sec || 0);
+      if (!isFinite(sec) || sec < 0) return "-";
+      const d = Math.floor(sec / 86400); sec -= d * 86400;
+      const h = Math.floor(sec / 3600); sec -= h * 3600;
+      const m = Math.floor(sec / 60); sec -= m * 60;
+      const s = Math.floor(sec);
+      if (d > 0) return d + "d " + h + "h " + m + "m";
+      if (h > 0) return h + "h " + m + "m " + s + "s";
+      if (m > 0) return m + "m " + s + "s";
+      return s + "s";
+    }
+    function fmtBps(x) {
+      x = Number(x || 0);
+      if (!isFinite(x) || x < 0) return "0";
+      if (x >= 1e9) return (x / 1e9).toFixed(2) + "G";
+      if (x >= 1e6) return (x / 1e6).toFixed(2) + "M";
+      if (x >= 1e3) return (x / 1e3).toFixed(2) + "k";
+      return String(Math.round(x));
+    }
+    function status(x) { return x === 1 ? "UP" : (x === 2 ? "DOWN" : String(x || 0)); }
+    function mark(b) { return b ? '✓' : '✗'; }
+
+    async function resetAll() {
+      try { await fetch('/api/v1/reset', { method: 'POST' }); } catch (e) { }
+      await tick();
+    }
+
+    async function tick() {
+      let s;
+      try {
+        const r = await fetch('/api/v1/snapshot', { cache: 'no-store' });
+        if (!r.ok) throw new Error('http ' + r.status);
+        const t = await r.text();
+        s = JSON.parse(t);
+        setBanner('banner', '');
+      } catch (e) {
+        setBanner('banner', 'Нет связи с локальным агентом (HTTP/API ошибка): ' + String(e));
+        return;
+      }
+
+      const st = (s.health || {}).state || 'UNKNOWN';
+      pill(document.getElementById('state'), st);
+
+      const snmpOk = !!((s.health || {}).snmpOk);
+      if (!snmpOk) {
+        setBanner('banner', 'SNMP недоступен: ' + String((s.health || {}).lastError || ''));
+      }
+
+      const fc = s.forecast || {};
+      if (fc.available === false) {
+        setBanner('banner2', 'Прогноз заморожен/недоступен: ' + String(fc.note || ''));
+      } else {
+        setBanner('banner2', '');
+      }
+
+      const nowP = Number((s.risk || {}).probNow || 0);
+      const nowScore = Number((s.risk || {}).score || 0);
+      document.getElementById('now').textContent = (nowP * 100).toFixed(1) + '% (score=' + nowScore.toFixed(3) + ')';
+
+      document.getElementById('fc').textContent = (Number(fc.probFailureHorizon || 0) * 100).toFixed(1) + '% / ' + fmtDur(fc.horizonSec || 0);
+
+      const fill = document.getElementById('fill');
+      fill.style.width = Math.round(nowP * 100) + '%';
+      fill.classList.remove('warn', 'bad');
+      if (nowP > 0.7) fill.classList.add('bad'); else if (nowP > 0.4) fill.classList.add('warn');
+
+      const meta = [];
+      meta.push('sysName=' + ((s.system || {}).sysName || '?'));
+      meta.push('uptime=' + String((s.system || {}).uptimeSec || 0) + 's');
+      meta.push('healthAge=' + Number(((s.fresh || {}).healthAgeSec || 0)).toFixed(2) + 's');
+      meta.push('fullAge=' + Number(((s.fresh || {}).fullAgeSec || 0)).toFixed(2) + 's');
+      meta.push('anomaly=' + Number((s.anomaly || {}).score || 0).toFixed(3));
+      meta.push(new Date(s.timestamp).toLocaleString());
+      document.getElementById('meta').textContent = meta.join(' | ');
+
+      const rel = document.querySelector('#rel tbody');
+      rel.innerHTML = '';
+      const ss = s.stats || {};
+      const rows = [
+        ['State', ss.state],
+        ['Failures', ss.failures],
+        ['Repairs', ss.repairs],
+        ['Total UP', fmtDur(ss.totalUpSec)],
+        ['Total DOWN', fmtDur(ss.totalDownSec)],
+        ['MTTF', fmtDur(ss.mttfSec)],
+        ['MTTR', fmtDur(ss.mttrSec)],
+        ['Availability(time)', (Number(ss.availabilityByTime || 0) * 100).toFixed(3) + '%'],
+        ['Availability(fit)', (Number(ss.availabilityByFit || 0) * 100).toFixed(3) + '%'],
+      ];
+      for (const [k, v] of rows) {
+        const tr = document.createElement('tr');
+        tr.innerHTML = '<td class="mono">' + k + '</td><td>' + String(v ?? '-') + '</td>';
+        rel.appendChild(tr);
+      }
+
+      const at = document.querySelector('#anom tbody');
+      at.innerHTML = '';
+      const by = (s.anomaly || {}).byKey || {};
+      const keys = Object.keys(by).sort();
+      for (const k of keys) {
+        const v = by[k];
+        const tr = document.createElement('tr');
+        tr.innerHTML =
+          '<td class="mono">' + k + '</td>' +
+          '<td class="mono">' + Number(v.value || 0).toFixed(3) + '</td>' +
+          '<td class="mono">' + Number(v.expected || 0).toFixed(3) + '</td>' +
+          '<td class="mono">' + Number(v.z || 0).toFixed(3) + '</td>' +
+          '<td class="mono">' + Number(v.score || 0).toFixed(3) + '</td>' +
+          '<td class="mono">' + (v.model || '') + '</td>' +
+          '<td class="mono">' + (v.samples ?? '') + '</td>';
+        at.appendChild(tr);
+      }
+
+      const av = s.availability || {};
+      const fullFresh = !!((s.fresh || {}).fullFresh);
+      const availRows = [
+        ['sysUpTime', av.sysUpTime],
+        ['sysName', av.sysName],
+        ['sysDescr', av.sysDescr],
+        ['cpu5min (optional)', av.cpu5min],
+        ['memoryPool (optional)', av.memoryPool],
+        ['temperature (optional)', av.temperature],
+        ['ifDescr', av.ifDescr],
+        ['ifAlias', av.ifAlias],
+        ['ifType', av.ifType],
+        ['ifMTU', av.ifMtu],
+        ['ifSpeed', av.ifSpeed],
+        ['ifAdminStatus', av.ifAdminStatus],
+        ['ifOperStatus', av.ifOperStatus],
+        ['ifHCOctets', av.ifHCOctets],
+        ['ifErrors', av.ifErrors],
+        ['ifDiscards', av.ifDiscards],
+        ['ifUcastPkts', av.ifUcastPkts],
+      ];
+      const ab = document.querySelector('#avail tbody');
+      ab.innerHTML = '';
+      for (const [name, ok] of availRows) {
+        const tr = document.createElement('tr');
+        tr.innerHTML = '<td class="mono">' + name + '</td><td>' + mark(!!ok) + '</td><td>' + mark(fullFresh) + '</td>';
+        ab.appendChild(tr);
+      }
+
+      const it = document.querySelector('#ifaces tbody');
+      it.innerHTML = '';
+      const avIf = s.availability || {};
+      for (const x of (s.interfaces || [])) {
+        const sup = [];
+        if (avIf.ifHCOctets) sup.push('HC');
+        if (avIf.ifErrors) sup.push('Err');
+        if (avIf.ifDiscards) sup.push('Disc');
+        if (avIf.ifUcastPkts) sup.push('Uc');
+        const supText = sup.length ? sup.map(() => '✓').join(' ') : '✗';
+
+        const tr = document.createElement('tr');
+        tr.innerHTML =
+          '<td>' + x.ifIndex + '</td>' +
+          '<td class="mono">' + (x.ifName || '') + '</td>' +
+          '<td>' + supText + '</td>' +
+          '<td>' + status(x.ifAdminStatus) + '</td>' +
+          '<td>' + status(x.ifOperStatus) + '</td>' +
+          '<td>' + fmtBps(x.ifSpeedBps || 0) + '</td>' +
+          '<td>' + Number(x.errRatePps || 0).toFixed(2) + '</td>' +
+          '<td>' + Number(x.discRatePps || 0).toFixed(2) + '</td>' +
+          '<td>' + fmtBps(x.inBps || 0) + '</td>' +
+          '<td>' + fmtBps(x.outBps || 0) + '</td>';
+        it.appendChild(tr);
+      }
+
+      const evT = document.querySelector('#ev tbody');
+      evT.innerHTML = '';
+      const evs = s.events || [];
+      for (let i = evs.length - 1; i >= 0; i--) {
+        const e = evs[i];
+        const tr = document.createElement('tr');
+        tr.innerHTML =
+          '<td class="mono">' + (e.at ? new Date(e.at).toLocaleString() : '') + '</td>' +
+          '<td class="mono">' + (e.from || '?') + '→' + (e.to || '?') + '</td>' +
+          '<td>' + fmtDur(e.prevDurSec) + '</td>' +
+          '<td>' + String(e.reason || '') + '</td>';
+        evT.appendChild(tr);
+      }
+    }
+    setInterval(tick, 500);
+    tick();
+  </script>
+</body>
+
+</html>
