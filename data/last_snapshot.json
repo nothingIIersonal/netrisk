@@ -1,89 +1,157 @@
 {
-  "timestamp": "2026-03-06T18:00:56.143288569+03:00",
+  "timestamp": "2026-03-08T05:25:39.506989964+03:00",
   "device": {
     "target": "192.168.2.104",
     "port": 161
   },
   "system": {
-    "sysName": "",
-    "sysDescr": "",
-    "uptimeSec": 0
+    "sysName": "Switch104.entcor.local",
+    "sysDescr": "Cisco IOS Software, Linux Software (I86BI_LINUXL2-ADVIPSERVICESK9-M), Version 15.2(CML_NIGHTLY_20151103)FLO_DSGS7, EARLY DEPLOYMENT DEVELOPMENT BUILD, synced to  FLO_DSGS7_POSTCOLLAPSE_TEAM_TRACK_DSGS_PI5\r\nTechnical Support: http://www.cisco.com/techsuppo",
+    "uptimeSec": 63941
   },
-  "optional": {},
+  "optional": {
+    "cpu5minPct": 0,
+    "memUsedKB": 2182,
+    "memFreeKB": 394024040
+  },
   "health": {
-    "snmpOk": false,
-    "state": "DOWN",
-    "lastAttempt": "2026-03-06T18:00:56.143288569+03:00",
-    "lastSuccess": "0001-01-01T00:00:00Z",
-    "consecutiveFail": 7855,
-    "consecutiveOk": 0,
-    "lastError": "snmp get health: request timeout (after 0 retries)",
-    "ageSec": 0,
+    "snmpOk": true,
+    "state": "UP",
+    "lastAttempt": "2026-03-08T05:25:39.216997489+03:00",
+    "lastSuccess": "2026-03-08T05:25:39.216997489+03:00",
+    "consecutiveFail": 0,
+    "consecutiveOk": 1455,
+    "ageSec": 0.289992488,
     "stale": false
   },
   "stats": {
     "observationStart": "2026-03-05T23:17:45.093735303+03:00",
-    "now": "2026-03-06T18:00:56.143288569+03:00",
-    "state": "DOWN",
-    "failures": 11,
-    "repairs": 10,
-    "totalUpSec": 7485.625397017,
-    "totalDownSec": 59900.423364243004,
-    "mttfSec": 680.5113997288182,
-    "mttrSec": 5990.042336424301,
-    "mtbfCycleSec": 6670.553736153119,
-    "availabilityByTime": 0.11108568516218538,
-    "availabilityByFit": 0.10201722775136002
+    "now": "2026-03-08T05:25:39.506989964+03:00",
+    "state": "UP",
+    "failures": 16,
+    "repairs": 16,
+    "totalUpSec": 49988.279059955,
+    "totalDownSec": 144881.133402664,
+    "mttfSec": 3124.2674412471874,
+    "mttrSec": 9055.0708376665,
+    "mtbfCycleSec": 12179.338278913689,
+    "availabilityByTime": 0.25652193655350625,
+    "availabilityByFit": 0.25652193655350625
   },
   "availability": {
-    "sysUpTime": false,
-    "sysName": false,
-    "sysDescr": false,
-    "cpu5min": false,
-    "memoryPool": false,
+    "sysUpTime": true,
+    "sysName": true,
+    "sysDescr": true,
+    "cpu5min": true,
+    "memoryPool": true,
     "temperature": false,
-    "ifDescr": false,
-    "ifAlias": false,
-    "ifType": false,
-    "ifMtu": false,
-    "ifSpeed": false,
-    "ifAdminStatus": false,
-    "ifOperStatus": false,
-    "ifHCOctets": false,
-    "ifErrors": false,
-    "ifDiscards": false,
-    "ifUcastPkts": false
+    "ifDescr": true,
+    "ifAlias": true,
+    "ifType": true,
+    "ifMtu": true,
+    "ifSpeed": true,
+    "ifAdminStatus": true,
+    "ifOperStatus": true,
+    "ifHCOctets": true,
+    "ifErrors": true,
+    "ifDiscards": true,
+    "ifUcastPkts": true
   },
   "fresh": {
-    "healthFresh": false,
-    "healthAgeSec": 0,
-    "fullFresh": false,
+    "healthFresh": true,
+    "healthAgeSec": 0.289992488,
+    "fullFresh": true,
     "fullAgeSec": 0
   },
   "signals": {
-    "linkDownRatio": 0,
+    "linkDownRatio": 0.75,
     "ifErrRatePps": 0,
     "ifDiscRatePps": 0,
     "trafficInBps": 0,
-    "trafficOutBps": 0
+    "trafficOutBps": 0,
+    "cpu5minPct": 0
   },
   "anomaly": {
-    "score": 0,
-    "byKey": {}
+    "score": 0.075432675872792,
+    "byKey": {
+      "cpu5minPct": {
+        "available": true,
+        "value": 0,
+        "expected": 0,
+        "z": 0,
+        "score": 0,
+        "model": "EWMA-Z",
+        "samples": 1530
+      },
+      "ifDiscRatePps": {
+        "available": true,
+        "value": 0,
+        "expected": 0,
+        "z": 0,
+        "score": 0,
+        "model": "Holt-Winters(add)",
+        "samples": 1530
+      },
+      "ifErrRatePps": {
+        "available": true,
+        "value": 0,
+        "expected": 0,
+        "z": 0,
+        "score": 0,
+        "model": "Holt-Winters(add)",
+        "samples": 1530
+      },
+      "linkDownRatio": {
+        "available": true,
+        "value": 0.75,
+        "expected": 0.7506243735313658,
+        "z": -0.17569143387954933,
+        "score": 0.05688194310334149,
+        "model": "Holt-Winters(add)",
+        "samples": 1530
+      },
+      "tempC": {
+        "available": false,
+        "value": 0,
+        "expected": 0,
+        "z": 0,
+        "score": 0,
+        "model": "",
+        "samples": 0,
+        "note": "not available"
+      },
+      "trafficInBps": {
+        "available": true,
+        "value": 0,
+        "expected": 3212.173863497407,
+        "z": -0.9567570663796116,
+        "score": 0.2730655874741298,
+        "model": "Holt-Winters(add)",
+        "samples": 1530
+      },
+      "trafficOutBps": {
+        "available": true,
+        "value": 0,
+        "expected": 9803.989307718468,
+        "z": -1.0092562254546555,
+        "score": 0.2856760741186666,
+        "model": "Holt-Winters(add)",
+        "samples": 1530
+      }
+    }
   },
   "risk": {
-    "score": 1,
-    "probNow": 1,
-    "reason": "telemetry lost"
+    "score": 0.11346435781500752,
+    "probNow": 0.0895441300507225
   },
   "forecast": {
-    "available": false,
+    "available": true,
     "frozen": false,
-    "note": "telemetry lost; no baseline forecast yet",
     "horizonSec": 300,
-    "lambdaPerSec": 0,
-    "lambdaEffPerSec": 0,
-    "probFailureHorizon": 0
+    "lambdaPerSec": 0.0003200750316051069,
+    "lambdaEffPerSec": 0.00041922873862925016,
+    "probFailureHorizon": 0.11818114297315008,
+    "comment": "from MTTF"
   },
   "events": [
     {
@@ -250,7 +318,284 @@
       "prevDurSec": 3023.138633076,
       "reason": "snmp_fail",
       "error": "snmp get health: request timeout (after 0 retries)"
+    },
+    {
+      "at": "2026-03-07T16:54:24.354581877+03:00",
+      "from": "DOWN",
+      "to": "UP",
+      "prevDurSec": 135927.556223235,
+      "reason": "snmp_ok"
+    },
+    {
+      "at": "2026-03-07T19:15:47.755464135+03:00",
+      "from": "UP",
+      "to": "DOWN",
+      "prevDurSec": 8483.400882258,
+      "reason": "snmp_fail",
+      "error": "snmp get health: request timeout (after 0 retries)"
+    },
+    {
+      "at": "2026-03-07T19:16:21.004953619+03:00",
+      "from": "DOWN",
+      "to": "UP",
+      "prevDurSec": 33.249489467,
+      "reason": "snmp_ok"
+    },
+    {
+      "at": "2026-03-07T19:38:34.255098271+03:00",
+      "from": "UP",
+      "to": "DOWN",
+      "prevDurSec": 1333.250144654,
+      "reason": "snmp_fail",
+      "error": "snmp get health: request timeout (after 0 retries)"
+    },
+    {
+      "at": "2026-03-07T19:38:38.754819852+03:00",
+      "from": "DOWN",
+      "to": "UP",
+      "prevDurSec": 4.499721579,
+      "reason": "snmp_ok"
+    },
+    {
+      "at": "2026-03-07T19:51:30.359644306+03:00",
+      "from": "UP",
+      "to": "DOWN",
+      "prevDurSec": 771.604824454,
+      "reason": "snmp_fail",
+      "error": "snmp get health: request timeout (after 0 retries)"
+    },
+    {
+      "at": "2026-03-07T19:51:51.609428907+03:00",
+      "from": "DOWN",
+      "to": "UP",
+      "prevDurSec": 21.249784582,
+      "reason": "snmp_ok"
+    },
+    {
+      "at": "2026-03-07T20:31:15.609551103+03:00",
+      "from": "UP",
+      "to": "DOWN",
+      "prevDurSec": 2364.000122209,
+      "reason": "snmp_fail",
+      "error": "snmp get health: request timeout (after 0 retries)"
+    },
+    {
+      "at": "2026-03-07T20:44:13.859535137+03:00",
+      "from": "DOWN",
+      "to": "UP",
+      "prevDurSec": 778.249984035,
+      "reason": "snmp_ok"
+    },
+    {
+      "at": "2026-03-07T23:30:44.859123116+03:00",
+      "from": "UP",
+      "to": "DOWN",
+      "prevDurSec": 9990.999587965,
+      "reason": "snmp_fail",
+      "error": "snmp get health: request timeout (after 0 retries)"
+    },
+    {
+      "at": "2026-03-07T23:59:40.108888566+03:00",
+      "from": "DOWN",
+      "to": "UP",
+      "prevDurSec": 1735.24976545,
+      "reason": "snmp_ok"
     }
   ],
-  "interfaces": null
+  "interfaces": [
+    {
+      "ifIndex": 1,
+      "ifName": "Ethernet0/0",
+      "ifType": 6,
+      "ifMtu": 1500,
+      "ifSpeedBps": 10000000,
+      "ifAdminStatus": 1,
+      "ifOperStatus": 1,
+      "inOctets": 56627510,
+      "outOctets": 93205875,
+      "inUcastPkts": 623666,
+      "outUcastPkts": 314438,
+      "ucastRatePps": 19.91969445961211
+    },
+    {
+      "ifIndex": 2,
+      "ifName": "Ethernet0/1",
+      "ifType": 6,
+      "ifMtu": 1500,
+      "ifSpeedBps": 10000000,
+      "ifAdminStatus": 1,
+      "ifOperStatus": 1,
+      "inOctets": 212,
+      "outOctets": 22927662,
+      "outUcastPkts": 394
+    },
+    {
+      "ifIndex": 3,
+      "ifName": "Ethernet0/2",
+      "ifType": 6,
+      "ifMtu": 1500,
+      "ifSpeedBps": 10000000,
+      "ifAdminStatus": 1,
+      "ifOperStatus": 1,
+      "inOctets": 591,
+      "outOctets": 22924164,
+      "outUcastPkts": 394
+    },
+    {
+      "ifIndex": 4,
+      "ifName": "Ethernet0/3",
+      "ifType": 6,
+      "ifMtu": 1500,
+      "ifSpeedBps": 10000000,
+      "ifAdminStatus": 1,
+      "ifOperStatus": 2,
+      "outOctets": 4821
+    },
+    {
+      "ifIndex": 5,
+      "ifName": "Ethernet1/0",
+      "ifType": 6,
+      "ifMtu": 1500,
+      "ifSpeedBps": 10000000,
+      "ifAdminStatus": 1,
+      "ifOperStatus": 1,
+      "outOctets": 22925667,
+      "outUcastPkts": 394
+    },
+    {
+      "ifIndex": 6,
+      "ifName": "Ethernet1/1",
+      "ifType": 6,
+      "ifMtu": 1500,
+      "ifSpeedBps": 10000000,
+      "ifAdminStatus": 1,
+      "ifOperStatus": 2,
+      "outOctets": 4821
+    },
+    {
+      "ifIndex": 7,
+      "ifName": "Ethernet1/2",
+      "ifType": 6,
+      "ifMtu": 1500,
+      "ifSpeedBps": 10000000,
+      "ifAdminStatus": 1,
+      "ifOperStatus": 2,
+      "outOctets": 4821
+    },
+    {
+      "ifIndex": 8,
+      "ifName": "Ethernet1/3",
+      "ifType": 6,
+      "ifMtu": 1500,
+      "ifSpeedBps": 10000000,
+      "ifAdminStatus": 1,
+      "ifOperStatus": 2,
+      "outOctets": 4821
+    },
+    {
+      "ifIndex": 9,
+      "ifName": "Ethernet2/0",
+      "ifType": 6,
+      "ifMtu": 1500,
+      "ifSpeedBps": 10000000,
+      "ifAdminStatus": 1,
+      "ifOperStatus": 2,
+      "outOctets": 4821
+    },
+    {
+      "ifIndex": 10,
+      "ifName": "Ethernet2/1",
+      "ifType": 6,
+      "ifMtu": 1500,
+      "ifSpeedBps": 10000000,
+      "ifAdminStatus": 1,
+      "ifOperStatus": 2,
+      "outOctets": 4821
+    },
+    {
+      "ifIndex": 11,
+      "ifName": "Ethernet2/2",
+      "ifType": 6,
+      "ifMtu": 1500,
+      "ifSpeedBps": 10000000,
+      "ifAdminStatus": 1,
+      "ifOperStatus": 2,
+      "outOctets": 4821
+    },
+    {
+      "ifIndex": 12,
+      "ifName": "Ethernet2/3",
+      "ifType": 6,
+      "ifMtu": 1500,
+      "ifSpeedBps": 10000000,
+      "ifAdminStatus": 1,
+      "ifOperStatus": 2,
+      "outOctets": 4821
+    },
+    {
+      "ifIndex": 13,
+      "ifName": "Ethernet3/0",
+      "ifType": 6,
+      "ifMtu": 1500,
+      "ifSpeedBps": 10000000,
+      "ifAdminStatus": 1,
+      "ifOperStatus": 2,
+      "outOctets": 4821
+    },
+    {
+      "ifIndex": 14,
+      "ifName": "Ethernet3/1",
+      "ifType": 6,
+      "ifMtu": 1500,
+      "ifSpeedBps": 10000000,
+      "ifAdminStatus": 1,
+      "ifOperStatus": 2,
+      "outOctets": 4821
+    },
+    {
+      "ifIndex": 15,
+      "ifName": "Ethernet3/2",
+      "ifType": 6,
+      "ifMtu": 1500,
+      "ifSpeedBps": 10000000,
+      "ifAdminStatus": 1,
+      "ifOperStatus": 2,
+      "outOctets": 4821
+    },
+    {
+      "ifIndex": 16,
+      "ifName": "Ethernet3/3",
+      "ifType": 6,
+      "ifMtu": 1500,
+      "ifSpeedBps": 10000000,
+      "ifAdminStatus": 1,
+      "ifOperStatus": 2,
+      "outOctets": 4821
+    },
+    {
+      "ifIndex": 17,
+      "ifName": "Null0",
+      "ifType": 1,
+      "ifMtu": 1500,
+      "ifSpeedBps": 4294967295,
+      "ifAdminStatus": 1,
+      "ifOperStatus": 1
+    },
+    {
+      "ifIndex": 18,
+      "ifName": "Vlan1",
+      "ifType": 53,
+      "ifMtu": 1500,
+      "ifSpeedBps": 1000000000,
+      "ifAdminStatus": 1,
+      "ifOperStatus": 1,
+      "inOctets": 54535121,
+      "outOctets": 91751843,
+      "inUcastPkts": 315484,
+      "outUcastPkts": 314428,
+      "inBps": 8074.631874541018,
+      "outBps": 17007.937956855607,
+      "ucastRatePps": 14.698026979907965
+    }
+  ]
 }

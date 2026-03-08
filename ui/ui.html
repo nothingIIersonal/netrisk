@@ -384,12 +384,15 @@
       it.innerHTML = '';
       const avIf = s.availability || {};
       for (const x of (s.interfaces || [])) {
-        const sup = [];
-        if (avIf.ifHCOctets) sup.push('HC');
-        if (avIf.ifErrors) sup.push('Err');
-        if (avIf.ifDiscards) sup.push('Disc');
-        if (avIf.ifUcastPkts) sup.push('Uc');
-        const supText = sup.length ? sup.map(() => '✓').join(' ') : '✗';
+        const checks = [
+          { name: 'HC', prop: avIf.ifHCOctets },
+          { name: 'Err', prop: avIf.ifErrors },
+          { name: 'Disc', prop: avIf.ifDiscards },
+          { name: 'Uc', prop: avIf.ifUcastPkts }
+        ];
+
+        const parts = checks.map(({ name, prop }) => `${name}: ${prop ? '✓' : '✗'}`);
+        const supText = parts.join(' ');
 
         const tr = document.createElement('tr');
         tr.innerHTML =

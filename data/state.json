@@ -1,11 +1,11 @@
 {
   "obsStart": "2026-03-05T23:17:45.093735303+03:00",
-  "state": "DOWN",
-  "lastChange": "2026-03-06T03:08:56.798358642+03:00",
-  "failures": 11,
-  "repairs": 10,
-  "upSumSec": 7485.625397017,
-  "downSumSec": 6381.078434316001,
+  "state": "UP",
+  "lastChange": "2026-03-07T23:59:40.108888566+03:00",
+  "failures": 16,
+  "repairs": 16,
+  "upSumSec": 30428.880958556998,
+  "downSumSec": 144881.133402664,
   "events": [
     {
       "at": "2026-03-05T23:17:50.094527422+03:00",
@@ -171,6 +171,88 @@
       "prevDurSec": 3023.138633076,
       "reason": "snmp_fail",
       "error": "snmp get health: request timeout (after 0 retries)"
+    },
+    {
+      "at": "2026-03-07T16:54:24.354581877+03:00",
+      "from": "DOWN",
+      "to": "UP",
+      "prevDurSec": 135927.556223235,
+      "reason": "snmp_ok"
+    },
+    {
+      "at": "2026-03-07T19:15:47.755464135+03:00",
+      "from": "UP",
+      "to": "DOWN",
+      "prevDurSec": 8483.400882258,
+      "reason": "snmp_fail",
+      "error": "snmp get health: request timeout (after 0 retries)"
+    },
+    {
+      "at": "2026-03-07T19:16:21.004953619+03:00",
+      "from": "DOWN",
+      "to": "UP",
+      "prevDurSec": 33.249489467,
+      "reason": "snmp_ok"
+    },
+    {
+      "at": "2026-03-07T19:38:34.255098271+03:00",
+      "from": "UP",
+      "to": "DOWN",
+      "prevDurSec": 1333.250144654,
+      "reason": "snmp_fail",
+      "error": "snmp get health: request timeout (after 0 retries)"
+    },
+    {
+      "at": "2026-03-07T19:38:38.754819852+03:00",
+      "from": "DOWN",
+      "to": "UP",
+      "prevDurSec": 4.499721579,
+      "reason": "snmp_ok"
+    },
+    {
+      "at": "2026-03-07T19:51:30.359644306+03:00",
+      "from": "UP",
+      "to": "DOWN",
+      "prevDurSec": 771.604824454,
+      "reason": "snmp_fail",
+      "error": "snmp get health: request timeout (after 0 retries)"
+    },
+    {
+      "at": "2026-03-07T19:51:51.609428907+03:00",
+      "from": "DOWN",
+      "to": "UP",
+      "prevDurSec": 21.249784582,
+      "reason": "snmp_ok"
+    },
+    {
+      "at": "2026-03-07T20:31:15.609551103+03:00",
+      "from": "UP",
+      "to": "DOWN",
+      "prevDurSec": 2364.000122209,
+      "reason": "snmp_fail",
+      "error": "snmp get health: request timeout (after 0 retries)"
+    },
+    {
+      "at": "2026-03-07T20:44:13.859535137+03:00",
+      "from": "DOWN",
+      "to": "UP",
+      "prevDurSec": 778.249984035,
+      "reason": "snmp_ok"
+    },
+    {
+      "at": "2026-03-07T23:30:44.859123116+03:00",
+      "from": "UP",
+      "to": "DOWN",
+      "prevDurSec": 9990.999587965,
+      "reason": "snmp_fail",
+      "error": "snmp get health: request timeout (after 0 retries)"
+    },
+    {
+      "at": "2026-03-07T23:59:40.108888566+03:00",
+      "from": "DOWN",
+      "to": "UP",
+      "prevDurSec": 1735.24976545,
+      "reason": "snmp_ok"
     }
   ]
 }
