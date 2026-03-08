@@ -33,9 +33,9 @@ const (
 	oidIfHCInOctets  = "1.3.6.1.2.1.31.1.1.1.6"
 	oidIfHCOutOctets = "1.3.6.1.2.1.31.1.1.1.10"
 
-	oidCpu5min     = "1.3.6.1.4.1.9.9.109.1.1.1.1.5.2"
-	oidMemoryUsed  = "1.3.6.1.4.1.9.9.48.1.1.1.5.1"
-	oidMemoryFree  = "1.3.6.1.4.1.9.9.48.1.1.1.6.1"
+	oidCpu5min     = "1.3.6.1.4.1.9.2.1.58.0"
+	oidMemoryUsed  = "1.3.6.1.4.1.9.2.1.9.0"
+	oidMemoryFree  = "1.3.6.1.4.1.9.2.1.8.0"
 	oidChassisTemp = "1.3.6.1.4.1.9.9.13.1.3.1.3.1"
 )
 
