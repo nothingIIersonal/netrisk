@@ -40,7 +40,7 @@ services:
       - PROMETHEUS_URL=http://prometheus:9090
       - ML_SERVICE_URL=http://ml-service:8000
       - HORIZON_HOURS=1
-      - POLL_INTERVAL_SECONDS=30
+      - POLL_INTERVAL_SECONDS=2
       - FEATURE_CONFIG=/app/config/features.json
     volumes:
       - ./config:/app/config:ro
