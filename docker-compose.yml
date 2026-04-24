@@ -1,0 +1,49 @@
+services:
+  metrics-sim:
+    build: ./metrics-sim
+    container_name: metrics-sim
+    ports:
+      - "9117:9117"
+
+  prometheus:
+    image: prom/prometheus:v2.53.0
+    container_name: prometheus
+    command:
+      - --config.file=/etc/prometheus/prometheus.yml
+      - --storage.tsdb.path=/prometheus
+      - --web.enable-lifecycle
+    ports:
+      - "9090:9090"
+    volumes:
+      - ./prometheus/prometheus.yml:/etc/prometheus/prometheus.yml:ro
+      - prometheus_data:/prometheus
+    depends_on:
+      - metrics-sim
+
+  ml-service:
+    build: ./ml-service
+    container_name: ml-service
+    ports:
+      - "8000:8000"
+    volumes:
+      - ./ml-service/model:/app/model
+      - ./config:/app/config:ro
+    environment:
+      - FEATURE_CONFIG=/app/config/features.json
+
+  main-service:
+    build: ./main-service
+    container_name: main-service
+    ports:
+      - "8080:8080"
+    environment:
+      - PROMETHEUS_URL=http://prometheus:9090
+      - ML_SERVICE_URL=http://ml-service:8000
+      - HORIZON_HOURS=1
+      - POLL_INTERVAL_SECONDS=30
+      - FEATURE_CONFIG=/app/config/features.json
+    volumes:
+      - ./config:/app/config:ro
+
+volumes:
+  prometheus_data:

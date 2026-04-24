@@ -1,0 +1,17 @@
+global:
+  scrape_interval: 15s
+  evaluation_interval: 15s
+
+scrape_configs:
+  - job_name: prometheus
+    static_configs:
+      - targets: [ "prometheus:9090" ]
+
+  - job_name: snmp_switch_sim
+    metrics_path: /metrics
+    static_configs:
+      - targets: [ "metrics-sim:9117" ]
+
+  - job_name: main_service
+    static_configs:
+      - targets: [ "main-service:8080" ]
