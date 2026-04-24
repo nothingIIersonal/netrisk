@@ -1,0 +1,98 @@
+{
+  "features": [
+    {
+      "name": "cpu_load",
+      "weight": 0.1,
+      "models": [
+        "ewma",
+        "zscore",
+        "iforest",
+        "ocsvm"
+      ]
+    },
+    {
+      "name": "mem_util",
+      "weight": 0.08,
+      "models": [
+        "ewma",
+        "zscore",
+        "iforest",
+        "ocsvm"
+      ]
+    },
+    {
+      "name": "temp_celsius",
+      "weight": 0.12,
+      "models": [
+        "ewma",
+        "zscore",
+        "iforest"
+      ]
+    },
+    {
+      "name": "traffic_in_rate",
+      "weight": 0.05,
+      "models": [
+        "holt_winters",
+        "ewma",
+        "iforest",
+        "ocsvm"
+      ]
+    },
+    {
+      "name": "traffic_out_rate",
+      "weight": 0.05,
+      "models": [
+        "holt_winters",
+        "ewma",
+        "iforest",
+        "ocsvm"
+      ]
+    },
+    {
+      "name": "if_error_rate",
+      "weight": 0.22,
+      "models": [
+        "zscore",
+        "ewma",
+        "threshold",
+        "iforest"
+      ]
+    },
+    {
+      "name": "if_discard_rate",
+      "weight": 0.16,
+      "models": [
+        "zscore",
+        "ewma",
+        "threshold",
+        "iforest"
+      ]
+    },
+    {
+      "name": "if_down_ratio",
+      "weight": 0.2,
+      "models": [
+        "threshold",
+        "iforest"
+      ]
+    },
+    {
+      "name": "reboot_indicator",
+      "weight": 0.02,
+      "models": [
+        "threshold"
+      ]
+    }
+  ],
+  "global_models": {
+    "iforest": {
+      "enabled": true,
+      "scope": "multivariate"
+    },
+    "ocsvm": {
+      "enabled": true,
+      "scope": "multivariate"
+    }
+  }
+}
