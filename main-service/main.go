@@ -532,11 +532,7 @@ const uiHTML = `<!doctype html>
       var relRows = [
         ['MTBF, ч', s.mtbf_hours],
         ['MTTR, ч', s.mttr_hours],
-        ['Hazard(1h)', s.hazard_1h],
         ['Availability', s.availability],
-        ['β', s.beta],
-        ['η', s.eta],
-        ['up', s.up]
       ];
 
       relRows.forEach(function (item) {
